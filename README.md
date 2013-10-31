@@ -99,6 +99,13 @@ specified otherwise.
 
         export LIBVIRT_DEFAULT_URI=${LIBVIRT_DEFAULT_URI:-"qemu:///system"} 
 
+1. [HOST] If you needed to set LIBVIRT_DEFAULT_URI in the previous step, create
+   a profile script to ensure the environment variable gets set in future
+   sessions.  This is needed to ensure the virtual power manager can find
+   the baremetal instances created on the host.
+
+        sudo su -c "echo export LIBVIRT_DEFAULT_URI=qemu:///system > /etc/profile.d/virsh.sh"
+
 1. [HOST] Create the baremetal nodes.  Specify the path to your undercloud-live 
    checkout as needed.  Save the output of this command, you will need it later.
 
