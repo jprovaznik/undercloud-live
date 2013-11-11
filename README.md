@@ -11,6 +11,10 @@ To get started, clone this repo to your home directory:
     $ cd
     $ git clone https://github.com/agroup/undercloud-live.git
 
+## Prerequisites
+* Only works on Fedora 19 x86_64
+* Passwordless sudo as root ability
+
 ## bin/undercloud.sh
 This script is run as the current user to configure the current system into an
 undercloud.
@@ -45,11 +49,6 @@ just run these scripts if you prefer to do that instead:
 NOTE: undercloud-images.sh will not build images if the files already exist under
 /opt/stack/images.  If you already have image files you want to use on the
 undercloud, just copy them into /opt/stack/images.
-
-
-### Prerequisites
-* Only works on Fedora 19 x86_64
-* sudo as root ability
 
 ### Caveats
 * undercloud.sh deploys software from git repositories and directly from PyPi.
