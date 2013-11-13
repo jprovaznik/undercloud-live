@@ -3,7 +3,7 @@
 set -eu
 
 source /opt/stack/undercloud-live/bin/common.sh
-source /etc/sysconfig/undercloudrc
+source ~/undercloudrc
 
 export OVERCLOUD_IP=$(nova list | grep notcompute.*ctlplane | sed  -e "s/.*=\\([0-9.]*\\).*/\1/")
 
@@ -12,6 +12,8 @@ source /opt/stack/tripleo-incubator/overcloudrc
 
 
 wait_for 60 10 ssh_noprompt heat-admin@$OVERCLOUD_IP sudo journalctl -u os-collect-config \| grep \'Completed phase post-configure\'
+
+source /etc/profile.d/tripleo-incubator-scripts.sh
 
 init-keystone \
     -p $OVERCLOUD_ADMIN_PASSWORD \
