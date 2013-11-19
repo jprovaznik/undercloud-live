@@ -16,7 +16,8 @@ NODE_DISK=${NODE_DISK:-20}
 NODE_ARCH=${NODE_ARCH:-amd64}
 UNDERCLOUD_MACS=${UNDERCLOUD_MACS:-""}
 LIBVIRT_HOST=${LIBVIRT_HOST:-192.168.122.1}
-LIBVIRT_USER=${LIBVIRT_USER:-stack}
+FIRSTUSER=$(grep '^user' /root/initial-setup-ks.cfg |sed 's/.*name=\([^ ]*\).*/\1/')
+LIBVIRT_USER=${LIBVIRT_USER:-${FIRSTUSER}}
 OVERCLOUD_LIBVIRT_TYPE=${OVERCLOUD_LIBVIRT_TYPE:-qemu}
 
 
@@ -78,6 +79,8 @@ export LIBVIRT_USER=$LIBVIRT_USER
 # instances *on* the overcloud.  If running the overcloud in vm's, you most
 # likely want qemu.
 export OVERCLOUD_LIBVIRT_TYPE=$OVERCLOUD_LIBVIRT_TYPE
+
+UCL_USER=$FIRSTUSER
 
 EOQ
 

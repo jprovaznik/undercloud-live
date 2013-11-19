@@ -29,7 +29,9 @@ python-pip
 %post --nochroot
 
 cd $INSTALL_ROOT/root
-git clone https://github.com/agroup/undercloud-live
+git clone https://github.com/jprovaznik/undercloud-live
+cd undercloud-live
+git checkout stackuser
 
 mkdir -p $INSTALL_ROOT/root/.cache/image-create
 
@@ -69,13 +71,13 @@ export PIP_DOWNLOAD_CACHE=/var/cache/pip
 # Install the undercloud
 /root/undercloud-live/bin/install.sh
 
-# move diskimage-builder cache into stack user's home dir so it can be reused
-# during image builds.
-mkdir -p /home/stack/.cache
-mv /root/.cache/image-create /home/stack/.cache/
-mkdir -p /home/stack/.cache/image-create/yum
-mkdir -p /home/stack/.cache/image-create/ccache
-chown -R stack.stack /home/stack/.cache
+## move diskimage-builder cache into stack user's home dir so it can be reused
+## during image builds.
+#mkdir -p /home/stack/.cache
+#mv /root/.cache/image-create /home/stack/.cache/
+#mkdir -p /home/stack/.cache/image-create/yum
+#mkdir -p /home/stack/.cache/image-create/ccache
+#chown -R stack.stack /home/stack/.cache
 
 # setup users to be able to run sudo with no password
 sed -i "s/# %wheel/%wheel/" /etc/sudoers
@@ -87,18 +89,18 @@ sed -i "s/# %wheel/%wheel/" /etc/sudoers
 # /var/lib/glance/images
 # /var/lib/nova/instances
 mkdir -p /opt/stack/images
-chgrp stack /opt/stack/images
+#chgrp stack /opt/stack/images
 chmod 775 /opt/stack/images
-export STACK_ID=`id -u stack`
-export STACK_GROUP_ID=`id -g stack`
+#export STACK_ID=`id -u stack`
+#export STACK_GROUP_ID=`id -g stack`
 export GLANCE_ID=`id -u glance`
 export GLANCE_GROUP_ID=`id -g glance`
 export NOVA_ID=`id -u nova`
 export NOVA_GROUP_ID=`id -g nova`
 cat << EOF >> /etc/fstab
-tmpfs /home/stack/.cache/image-create/ccache tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
-tmpfs /home/stack/.cache/image-create/yum tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
-tmpfs /opt/stack/images tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
+#tmpfs /home/stack/.cache/image-create/ccache tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
+#tmpfs /home/stack/.cache/image-create/yum tmpfs rw,uid=$STACK_ID,gid=$STACK_GROUP_ID 0 0
+tmpfs /opt/stack/images tmpfs rw 0 0
 tmpfs /var/lib/glance/images tmpfs rw,uid=$GLANCE_ID,gid=$GLANCE_GROUP_ID 0 0
 tmpfs /var/lib/nova/instances tmpfs rw,uid=$NOVA_ID,gid=$NOVA_GROUP_ID 0 0
 EOF

@@ -9,7 +9,7 @@ Before=os-collect-config-one-time.service
 [Service]
 Type=oneshot
 ExecStart=/bin/sudo /opt/stack/undercloud-live/bin/undercloud-network.sh
-User=stack
+User=liveuser
 RemainAfterExit=yes
 
 [Install]

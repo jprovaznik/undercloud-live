@@ -128,7 +128,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e boot-stack \
-       stackuser heat-cfntools \
+       heat-cfntools \
        undercloud-control-config undercloud-environment \
        selinux-permissive \
     -k install \

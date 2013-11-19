@@ -29,9 +29,9 @@ python-pip
 %post --nochroot
 
 cd $INSTALL_ROOT/root
-git clone https://github.com/agroup/undercloud-live
+git clone https://github.com/jprovaznik/undercloud-live
 cd undercloud-live
-git checkout slagle/package
+git checkout stackuser
 
 %end
 ##############################################################################
@@ -56,13 +56,13 @@ export PIP_DOWNLOAD_CACHE=/var/cache/pip
 # Install the undercloud
 /root/undercloud-live/bin/install-leaf.sh
 
-# move diskimage-builder cache into stack user's home dir so it can be reused
-# during image builds.
-mkdir -p /home/stack/.cache
-mv /root/.cache/image-create /home/stack/.cache/
-mkdir -p /home/stack/.cache/image-create/yum
-mkdir -p /home/stack/.cache/image-create/ccache
-chown -R stack.stack /home/stack/.cache
+## move diskimage-builder cache into stack user's home dir so it can be reused
+## during image builds.
+#mkdir -p /home/stack/.cache
+#mv /root/.cache/image-create /home/stack/.cache/
+#mkdir -p /home/stack/.cache/image-create/yum
+#mkdir -p /home/stack/.cache/image-create/ccache
+#chown -R stack.stack /home/stack/.cache
 
 # setup users to be able to run sudo with no password
 sed -i "s/# %wheel/%wheel/" /etc/sudoers

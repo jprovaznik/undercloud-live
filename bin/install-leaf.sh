@@ -33,12 +33,6 @@ sudo yum install -y iptables-services
 # openstack-nova.  Bug filed: https://bugzilla.redhat.com/show_bug.cgi?id=1022243
 sudo yum -y install ipmitool
 
-# The packaged version of pbr that gets installed is
-# python-pbr-0.5.19-2.fc19.noarch
-# However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
-# use pip to update pbr for now.
-sudo pip install -U pbr
-
 # This directory is still required because not all the elements in
 # tripleo-puppet-elements has been updated to use packages, specifically
 # os-*-config still use git clones and expect this directory to be created.
@@ -151,7 +145,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
     -e nova-baremetal bm-dnsmasq neutron-openvswitch-agent \
-       stackuser heat-cfntools \
+       heat-cfntools \
        undercloud-leaf-config undercloud-environment \
        selinux-permissive \
     -k install \

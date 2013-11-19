@@ -24,12 +24,6 @@ sudo yum install -y which
 # iptables is used instead of firewalld
 sudo yum install -y iptables-services
 
-# The packaged version of pbr that gets installed is
-# python-pbr-0.5.19-2.fc19.noarch
-# However, the unpackaged os-*-config expect pbr>=0.5.21, so we need to still
-# use pip to update pbr for now.
-sudo pip install -U pbr
-
 # This directory is still required because not all the elements in
 # tripleo-puppet-elements has been updated to use packages, specifically
 # os-*-config still use git clones and expect this directory to be created.
@@ -120,7 +114,7 @@ dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
 # https://bugzilla.redhat.com/show_bug.cgi?id=998682
 dib-elements -p diskimage-builder/elements/ tripleo-puppet-elements/elements/ \
                 undercloud-live/elements \
-    -e boot-stack nova-baremetal bm-dnsmasq stackuser heat-cfntools \
+    -e boot-stack nova-baremetal bm-dnsmasq heat-cfntools \
        undercloud-live-config undercloud-environment selinux-permissive \
     -k install \
     -x yum \
@@ -162,7 +156,6 @@ NETWORK=${NETWORK:-192.168.122.1}
 LIBVIRT_IP_ADDRESS=${LIBVIRT_IP_ADDRESS:-192.168.122.1}
 LIBVIRT_NETWORK_RANGE_START=${LIBVIRT_NETWORK_RANGE_START:-192.168.122.2}
 LIBVIRT_NETWORK_RANGE_END=${LIBVIRT_NETWORK_RANGE_END:-192.168.122.254}
-USER=${USER:-stack}
 
 sudo sed -i "s/192.168.122.1/$LIBVIRT_IP_ADDRESS/g" /etc/libvirt/qemu/networks/default.xml
 sudo sed -i "s/192.168.122.2/$LIBVIRT_NETWORK_RANGE_START/g" /etc/libvirt/qemu/networks/default.xml
@@ -170,7 +163,7 @@ sudo sed -i "s/192.168.122.254/$LIBVIRT_NETWORK_RANGE_END/g" /etc/libvirt/qemu/n
 
 # Modify config.json as necessary
 sudo sed -i "s/192.168.122.1/$NETWORK/g" /var/lib/heat-cfntools/cfn-init-data
-sudo sed -i "s/\"user\": \"stack\",/\"user\": \"$USER\",/" /var/lib/heat-cfntools/cfn-init-data
+sudo sed -i "s/\"user\": \"stack\",/\"user\": \"`whoami`\",/" /var/lib/heat-cfntools/cfn-init-data
 sudo sed -i "s/eth1/$PUBLIC_INTERFACE/g" /var/lib/heat-cfntools/cfn-init-data
 
 sudo sed -i "s/192.168.122.1/$NETWORK/g" /opt/stack/os-config-applier/templates/var/opt/undercloud-live/masquerade

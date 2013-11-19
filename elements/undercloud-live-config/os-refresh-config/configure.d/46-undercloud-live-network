@@ -2,6 +2,7 @@
 
 set -eu
 
+source /etc/sysconfig/undercloud-live-config
 UCL_USER=${UCL_USER:-stack}
 
 sudo -u $UCL_USER /opt/stack/undercloud-live/bin/network.sh
